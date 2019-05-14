@@ -1,0 +1,14 @@
+{"abbreviationFinder":"(f\\.eks\\.?)|(?<=\\ )(adm|adr|afd|alm|ang|bh|bl\\.a|dvs|e\\.g|eksl|inkl|evt|f\\.eks|feks|fhv|frk|fx|h\\.c|hhv|hr|i\\.e|ifb|ifl|jf|jr|jvf|kbh|mio|ml|mr|mrs|o\\.fl|ofl|osv|opg|org|p\\.t|pga|ph\\.d|s\\.u|sek|vedr|vejl|vedr|vha|vh|lign|mfl|m\\.fl|mia|mm|m\\.m|mvh|mv|dsv|a\\.i|d\\.|m\\.)[\\.\\!\\?\\ ]?(\\ |$)(?=[\\.\\!\\?]?)|\\.t[hv]\\ ",
+"markNotToSeperate":"[\\-]",
+"sentenceEndFinder":"[\\.|\\!|\\?](?!\\.|\\?|\\!)",
+"nonAlphaNumeric":"[^a-zæøå\\s\\-é:]",
+"findLinks":"((http(s)?:\\/\\/)|(www\\.))([\\w-]+.)+[\\w-]+(\\/[\\w- .\\/?%&=]+)?",
+"abbreviation_expansion":true,
+"writeNonMatchTokens":true,
+"threaded":false,
+"printResult":false,
+"removeLinks":true,
+"compare":true,
+"emoji":"👎|👿|💤|🖕🏼|😁|😎|😐|😒|😡|😢|😤|😨|😬|😰|😱|🤦‍|😖|🤢|🤬|🤭|🤮",
+"abbreviations":
+	{"mr":"mister","kbh":"københavn","ai":"indtil videre","bla":"blandt andet","mv":"med videre","bh":"brystholder","vh":"venlig hilsen","frk":"frøken","pt":"for tiden","phd":"philosophiae doctor","ang":"angående","mvh":"med venlig hilsen","feks":"for eksempel","mm":"med mere","adm":"administration","sek":"sekund","mrs":"misses","jvf":"jævnfør","hr":"herre","pga":"på grund af","lign":"lignende","ie":"det vil sige","jf":"jævnfør","mia":"milliard","afd":"afdeling","org":"organisation","eksl":"ekslusiv","dvs":"det vil sige","hc":"hans christian","vha":"ved hjælp af","adr":"adresse","ifl":"ifølge","dsv":"desværre","fhv":"forhenværende","vedr":"vedrørende","su":"SU","evt":"eventuelt","mio":"millioner","alm":"almindelig","d":"den","opg":"opgang","hhv":"henholdsvis","osv":"og så videre","m":"med","eg":"for eksempel","th":"til højre","inkl":"inklusiv","fx":"for eksempel","mfl":"med flere","jr":"junior","ml":"milliliter","vejl":"vejledende","ifb":"i forbindelse","ofl":"og flere"}}

@@ -1,0 +1,47 @@
+65% acc (standard 59%)
+
+if not(pos) and not(neg) and neu:
+	results.append(0)
+	continue
+if pos and neg and not(neu):
+	print("{0} was both positive and negative".format(sentences[i]))
+	results.append(polarity)
+	continue
+if pos:
+	results.append(1)
+	continue
+if neg:
+	results.append(-1)
+	continue
+else:
+	results.append(0);
+	
+	
+63% acc
+
+if pos:
+	if polarity > 0:
+		results.append(1)
+		continue
+	if not(neg or neu):
+		results.append(1)
+		continue
+	if neu or neg:
+		results.append(0)
+		continue
+if neg:
+	if polarity < 0:
+		results.append(-1)
+		continue
+	if not(neu):
+		results.append(-1)
+		continue
+	if neu:
+		results.append(0)
+		continue
+else:
+	results.append(0)
+	
+
+
+

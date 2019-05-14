@@ -1,0 +1,135 @@
+\subsection{Lexical Analysis} \label{lexical}
+For the naive lexical analysis of sentiment we have created a classifier called Rulebased Classifier. Our rule based classifier uses a Lexicon of words to determine the sentiment of a given sentence. We have created a dictionary of words most commonly used in positive or negative sentiment sentences, and associated these words with a numerical value, ranging from -2 to +2, indicating the sentiment of said word.
+
+The classifier takes a sentence as a string, and then runs that string through our Tokenizer. In the end, a list of Tokens will be created, which contain the word and the sentiment of said word, if a sentiment is found in our lexicon. An example of this process can be seen in table \ref{tokenize}. The classifier will then run through the list of Tokens, accumulating their total score on the way, determining a decimal value. If this value is greater than zero, our rule based classifier will determine the sentiment as positive. If the value is less than zero, our classifier will determine the sentiment as negative. If the value is zero, the classifier will determine the sentiment as neutral.
+
+\begin{table}[H]
+	\begin{tabular}{ccccc}
+		Regular Sentence: &
+		Det var godt. & & & \\
+		
+		Tokenized Sentence: & {[}"det", 0{]}     & {[}"var", 0{]} & {[}"godt",2{]} & {[}".",0{]}                \\
+		
+	\end{tabular}
+	\centering
+	\caption{Tokenization of a sentence.}
+	\label{tokenize}
+\end{table}
+
+For the lexicon we found an already-made lexicon online created by Finn Årup Nielsen \cite{afinn}. This lexicon provided a good baseline, but did not fit with our rating system, as it contained ratings higher than 2 and smaller than -2. We went through the entire lexicon and re-evaluated all words to make sure we agreed with the sentiment given by Finn, and also added missing conjugations to words present in the lexicon. We've also added 688 new words we have found through our data, specifically words used quite often in political contexts which also are used in either a predominantly negative or positive context. In unison with this, we also added specific emojis which are used predominantly in a negative or positive context. There are not a lot of examples of emojis with this quality, but a few examples are the angry emoji, the thumbs up emoji, and the thumbs down emoji. After re-evaluating all of the sentiment and adding new words to the lexicon, we went from 3552 words to 4240 words. 2831 of these words are rated to be negative, and 1409 of these words are rated to be positive. This means that our lexicon contains approximately 66.6\% negative words and 33.3\% positive words.
+
+Using the un-edited lexicon created by Finn we get an accuracy of 52.76\% with the results seen in table \ref{afinnresult}, and using our lexicon we get 55.58\% accuracy with the results seen in table \ref{ourlexresult}. This is in total an accuracy increase of 2.8\% points, and as can be seen on the stats, we now correctly guess more negative and positive sentences, but lose out on a few neutral sentences.
+
+\begin{table}[H]
+	\begin{tabular}{@{}llllll@{}}
+		\toprule
+		& & \multicolumn{3}{c}{Predicted} \\\cmidrule{3-5}
+		Actual & & Negative & Neutral & Positive &  \\ \midrule
+		Negative & & 1307 & 1569 & 596 & \\
+		Neutral  & & 579 & 2710 & 798 & \\
+		Positive & & 99 & 614 & 736 & \\ \bottomrule
+	\end{tabular}
+	\centering
+	\caption{Results using Finns lexicon}
+	\label{afinnresult}
+\end{table}
+
+\begin{table}[H]
+	\begin{tabular}{@{}llllll@{}}
+		\toprule
+		& & \multicolumn{3}{c}{Predicted} \\\cmidrule{3-5}
+		Actual & & Negative & Neutral & Positive &  \\ \midrule
+		Negative & & 1616 & 1311 & 545 & \\
+		Neutral  & & 637 & 2639 & 811 & \\
+		Positive & & 113 & 584 & 752 & \\ \bottomrule
+	\end{tabular}
+	\centering
+	\caption{Results using our new lexicon}
+	\label{ourlexresult}
+\end{table}
+
+We quickly noticed that there were certain scenarios that our rule based classifier could not handle with a simple lexicon. Intensifying words such as 'meget' were not accounted for, and words such as 'ikke' was not negating the sentiment of following tokens. We also noticed that a lot of Danish sayings do not contain any words which contain sentiment by themselves, but could drastically change the sentiment of an entire sentence when used in unison. We also noticed that a lot of sentences ended with three or more periods if they disagreed or showed displeasure towards the article, and a lot of sentences contained a mixture of question marks and exclamation marks if they were outraged.
+
+It would not be possible to handle these scenarios using the current strategy of using a lexicon of commonly used negative and positive words. It's not possible to give a period sentiment, as it would skew the results of all other sentences using punctuation properly. Neither would it be possible to do for exclamation- and question marks, as same logic would apply. Sayings mostly contained words with no sentiment, and therefore it would be inaccurate to give them sentiment individually, and negations also did not have sentiment themselves, but only modified sentiment of other tokens. For intensifiers it would also not be possible to give the word by itself sentiment, as intensifiers can intensify both negative- and positive sentiment tokens. This meant that we had to come up with a way to handle these edge cases, since our current approach was insufficient.
+
+These ideas are implemented in the form of \textit{Modifiers}. A modifier contains both a \textit{modValue}, which is the value used to change the sentiment of certain tokens, and a \textit{lookupValue}, which indicates how many tokens you look up and change the sentiment of. There are two modifiers which require additional parameters, such as \textit{Repeating}, which requires the character to check for and the amount of repeated characters required to modify the sentiment, and \textit{Vending}, which requires the list of words in said phrase. In total, five different modifiers were implemented, all handling the specific scenarios described previously.
+
+\subsubsection{Negations}
+Negations are Modifiers that negates the sentiment of subsequent tokens. Negations are used to make sure that the subsequent tokens change sentiment from positive to negative or vice versa when encountering a word which negates sentiment. When the program encounters a negation, it will look ahead depending on the lookupValue of this given negation, and negate all words it encounters, as long as they also have sentiment. An example of such a word is 'ikke'. If you write "Det var godt", the overall sentiment is positive, but if you write "Det var ikke godt", the overall sentiment becomes negative. This example can be seen in table \ref{negateexample}. With negations implemented our classifier can now handle such occurrences. Negations have been implemented to stop if a sentence ends, to make sure that the negation does not incorrectly change the sentiment of tokens which are not in the same sentence, should it for example contain parentheses or a quote.
+\begin{table}[H]
+	\begin{tabular}{ccccc} 
+		0 & 0 & 2 & & \\ 
+		Det & var & godt & & \\ 
+		0 & 0 & $\rightarrow$ & 2$\cdot$(-1) & \\ 
+		Det & var & \textbf{ikke} & godt & 
+	\end{tabular}
+	\centering
+	\caption{Negation example with sentiment.}
+	\label{negateexample}
+\end{table}
+
+\subsubsection{Multipliers}
+Multipliers are Modifiers which intensify the sentiment of subsequent tokens. This is used mainly for intensifiers to make sure a higher sentiment is returned. When using multipliers and encountering an intensifying word, it will now look ahead and intensify the sentiment of following tokens, which means tokens with sentiment will be valued higher if they're being intensified by an intensifier. This ensures that intensifying words will correctly change the sentiment, as intensifying words cannot themselves be given a sentiment value due to their ambiguous nature. An example of such a word is 'meget'. If you write "Det var godt", the overall sentiment is positive, but if you write "Det var meget godt", the sentiment of the latter sentence is more positive than the former. With multipliers implemented, it makes sure that our classifier can handle such occurrences. This example can be seen in table \ref{multiexample}. Multipliers have been implemented to stop if a sentence ends, to make sure that the negation does not incorrectly change the sentiment of tokens which are not in the same sentence, should it for example contain parentheses or a quote.
+\begin{table}[H]
+	\begin{tabular}{ccccc} 
+		0 & 0 & 2 & & \\ 
+		Det & var & godt & & \\ 
+		0 & 0 & $\rightarrow$ & 2$\cdot$1.5 & \\ 
+		Det & var & \textbf{meget} & godt & 
+	\end{tabular}
+	\centering
+	\caption{Multiplier example with sentiment.}
+	\label{multiexample}
+\end{table}
+
+\subsubsection{Phrases} \label{phrases}
+Phrases are used to account for a collection of words which individually do not have sentiment, but when used together in a certain order portray sentiment. These have been implemented so it's both possible to look ahead but also look behind when checking for phrases. This is because certain phrases start with words which are very common in the Danish language, and this reduces computation time, since we avoid checking for a phrase unnecessarily many times. In this case, we check for the least common of the two words and simply look backwards for the remaining words to make sure the entire phrase is there. If we find such a phrase, we will correctly change the sentiment of the last token in the phrase. An example of this is the saying 'hovedet under armen', which means to do something without thoroughly thinking it through, and is normally used in negative connotations only. An example showcasing a sentence with this saying is seen in table \ref{phraseexample}. The three individual words which make up this saying do not have sentiment themselves, but when combined in this order the sentiment becomes negative. 
+
+\begin{table}[H]
+	\begin{tabular}{cccccc} 
+		0 & 0 & 0 & 0 & 0 & \\ 
+		Du & har & hovedet & under & armen &  \\ 
+		0 & 0 & $\rightarrow$ & $\rightarrow$ & -2 &  \\ 
+		Du & har & \textbf{hovedet} & under & armen &   
+	\end{tabular}
+	\centering
+	\caption{Phrase example with sentiment.}
+	\label{phraseexample}
+\end{table}
+
+
+\subsubsection{Special}
+The special modifier is used to account for a large string of exclamation marks or question marks used in unison. When met with either an exclamation mark or a question mark, we build a string containing all the following exclamation- and question marks of the sentence. When this string has been built, we check it against a regular expression to see if it matches. If it matches, we will change the sentiment of the token to -2 and nullify all trailing identical tokens to make sure they do not contain sentiment. Question marks and exclamation marks should not contain sentiment, but the nullification is done as a safety measure to make sure they definitely do not.
+
+\subsubsection{Repeating}
+Repeating modifiers are used for any repeating characters, such as question marks, exclamation marks, or periods. We noticed that using repeating characters can express certain sentiment, for example using three or more periods in a row can express disappointment or negativity towards a given subject. 
+An example of this is the sentence "Imens kan DF, SD, Afd, Front national osv jo takke for ubetalelig reklame.....". If we ignore the trailing periods, the sentence is positive, but in reality the sentence is negative or sarcastic. 
+Therefore we've implemented a way to check for repeating characters and then modifying the sentiment if a character is repeated a certain amount of times.
+
+\subsubsection{Results of Modifiers}
+The modifiers are stored in a similar way to our regular lexicon, but contains more information given the nature of modifiers. This modifier lexicon is loaded the same way as our regular lexicon, and our current modifier lexicon only contains 49 entries, with several more ideas not implemented in the lexicon.
+
+After the implementation of Modifiers the rule based classifier behaves a little differently. It still splits the sentence into individual tokens and gives them sentiment, but before counting the sentiment it will check the word contained in that token if there is a modifier for it. If there is, the modifier will be executed, which in turn can change the sentiment of the current token, any future tokens or both. After the tokens have potentially been modified from executing this Modifier, the sentiment will be counted as normal. Since it is possible for there to be more than one Modifier on a given word, we make sure to execute all modifiers associated with the word before continuing the summation of sentiment. As showcased during section \ref{phrases} there's the phrase 'hovedet under armen'. We also have 'syg i hovedet' as a modifier, which also triggers on the word 'hovedet', which is an example of how one word can have multiple modifiers..
+
+Before Modifiers were implemented the accuracy of our implementation was 55.58\%. When using the bare-bones modifier lexicon, the accuracy jumps to 56.27\%, which can be seen in table \ref{rbresults}. This is in total an increase in accuracy of 0.69\% points. The lexicon used to test the accuracy of modifiers only contains 49 entries as previously mentioned, but still manages to make it so our rule based classifier correctly guesses the sentiment of more sentences. This is a good indication that the modifiers are effective. There is a 104 sentence jump when it comes to correctly guessed negative sentences, but there's a decrease in positive sentences by 3, and neutral sentences by 39.  
+\begin{table}[H]
+	\begin{tabular}{@{}llllll@{}}
+		\toprule
+		& & \multicolumn{3}{c}{Predicted} \\\cmidrule{3-5}
+		Actual & & Negative & Neutral & Positive &  \\ \midrule
+		Negative & & 1720 & 1246 & 506 & \\
+		Neutral  & & 685 & 2600 & 802 & \\
+		Positive & & 123 & 577 & 749 & \\ \bottomrule
+	\end{tabular}
+	\centering
+	\caption{Results using Modifiers}
+	\label{rbresults}
+\end{table}
+A good example sentence to showcase the effectiveness of modifiers from our dataset is 'det er jo ikke for sjov, at det britiske folk stemte sig ud af EU's formynderskab, der har taget overhånd.'. Before the implementation of Modifiers our rule based classifier determined the sentiment of this sentence to be neutral, but with a Negation Modifier in place for the word 'ikke', the sentiment is correctly determined to be negative, since 'sjov' has positive sentiment and is evened out by 'formynderskab' having negative sentiment.
+
+We are satisfied with the accuracy of the Lexical Analysis. While the addition of a lexicon containing Modifiers proved to improve accuracy, it contained very few entries and therefore could not have a significant impact. After reading through some of the unmatched tokens as mentioned in \ref{Settings}\label{settings}, it becomes clear that increasing the entries in the lexicon would yield better results. In our pipeline we have 31 more sayings which could should be included in our modifier lexicon, but were not included due to time constraints. 
+
+We also discovered a \textit{wordnet} containing Danish words specifically developed to be used in conjunction with the development of software for processing of natural language by the name of \textit{DanNet}.\cite{dannet} We're certain that this wordnet could be used in conjunction with developing the lexicon for the Lexical Analysis part of our classifiers. If we saw a word being used frequently in the dataset, we could check the wordnet to see which words were similar or closely related to it. 
+
+\subsubsection{Takeaways}
+In this section we introduced our lexical classifier. We described how we created a better version of a pre-existing lexicon and how we increased our accuracy by implementing Modifiers.

@@ -1,0 +1,31 @@
+\subsection{SOLID-principles}
+We wanted to keep our code in line with the SOLID-principles \cite{SOLID} as much as possible. The SOLID-principles are a set of guidelines that can help developers write better, cleaner and more maintainable code.
+SOLID is an acronym of the following principles:
+\begin{itemize}
+    \item Single responsibility
+    \item Open-Closed
+    \item Liskov substitution
+    \item Interface segregation
+    \item Dependency inversion
+\end{itemize}
+These principles are described in the upcoming sections.
+
+\subsection{Single Responsibility Principle}
+This principle dictates that a class, module or function should be responsible for one single part of the functionality of a program. For example, if we want to load data, train a model (described in the classification section) and save the model, we need to write at least three functions. One for loading data, one for training the model, and one for saving the model. Of course, a function can be invoked by one of the others without violating the principle, but one function is not allowed to handle everything.
+
+\subsection{Open/Closed Principle}
+This principle states that “Software entities (classes, modules, functions) should be open for extension, but closed for modification”. This means that it should be possible to extend the behavior of such an entity, without modifying its source code
+
+%TODO Hvor bruger vi open/closed?
+
+\subsection{Liskov Substitution Principle}
+This principle extends upon the Open-closed principle, and adds the constraint that if a type S is a subtype of type T, then objects of type T can be replaced with objects of type S without changing the properties of the program. 
+This means that everywhere the program expects some instance of T, we can use S instead, without the user noticing.
+We use the Liskov substitution principle when predicting sentiment of different sentences. All our classifiers have the same interface and output, and therefore we can use the classifier specified by the user at runtime.
+
+\subsection{Interface Segregation Principle}
+This principle states that no client should be forced to depend on methods, that it does not use, and therefore it is better to create many small and specific interfaces, rather than larger ones. Following this principle helps lower coupling and therefore makes it easier to refactor or change the behavior of the program. 
+%TODO Hvor bruger vi det her?
+
+\subsection{Dependency Inversion Principle}
+This principle states that it is better to depend on abstractions rather than concretions. Following this principle allows for easy switching between different modules implementing the same interface. We use this principle almost everywhere in the program. When we calculate the sentiment of a set of sentences, we use an implementation of the IEvaluator interface. This allowed us to implement multiple evaluators, and switch between them at runtime, rather than having to use the same one all the time.

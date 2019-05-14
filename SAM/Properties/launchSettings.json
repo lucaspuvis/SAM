@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SAM": {
+      "commandName": "Project",
+      "commandLineArgs": "svm -r \\Classifiers\\TrainingData\\test_data.csv"
+    }
+  }
+}
