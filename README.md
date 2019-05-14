@@ -43,6 +43,3 @@ To train the models, run the python scripts and exchange the filename with the d
 ```
 python3 Sentimentinator/Classifiers/classifier_svm.py
 ```
-# LINKS
-[Google drive](https://drive.google.com/drive/folders/1LtszLRUf3tT_FSs842AJzRE1S_DxCSbx?usp=sharing)
-
