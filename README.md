@@ -35,10 +35,9 @@ To run the classifier, navigate to the first Sentimentinator folder in a shell, 
 ```
 pip3 install -r requirements.txt
 ```
-There are multiple classifiers that can be trained
+There are two classifiers that can be trained
 * classifier_svm.py
-* classifier_svr.py
-* classifier_rf.py
+* classifier_svm_experimental.py
 
 To train the models, run the python scripts and exchange the filename with the desired:
 ```
