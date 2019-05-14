@@ -14,7 +14,6 @@ SAM svm -r MyData.csv
 The available classifiers are:
 * svm - Support vector machine
 * rb - Rule based(lexical) classification
-* rf - Random forest
 * lstm - Long term short memory 
 * random - Random classification
 
