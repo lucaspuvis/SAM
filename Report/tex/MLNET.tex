@@ -1,0 +1,19 @@
+\subsection{MML} \label{MML}
+In the early stages of the project we tried implementing a classifier using the ML.NET package from Microsoft in a classifier we henceforth will call MML (Microsoft Machine Learning). Using this would allow us to create the entire program using C\#, which would save us the trouble of finding a way to make C\# and Python work together. Although this would be positive for the project, there were some difficulties in working with the framework.
+
+We implemented a classifier through the framework and got it working quite fast, but we did not achieve the results we were expecting. The documentation is lacklustre at best, and therefore it is very difficult to make any changes or find meaningful information which could aid in improving the classifier. Furthermore, we had a lot of errors when trying to extend the classifier with new features when trying to improve its accuracy, which were very hard to fix given the previous lack of documentation. It should be noted that the version of ML.NET that were available to us at the time was a pre-release (v0.11\cite{mlnetrelease}). We collectively decided that the best action moving forward would be to channel our attention towards the SVM implemented in Python. This is partly because we had a fair amount of experience using these libraries already, and because it would then be possible to extend our SVM with new features to hopefully improve the accuracy. We did go back to testing MML towards the end of the project, and surprisingly achieved resuls that were close to our best SVM. An example of training the classifier on our data and testing it with our test data, we achieved an accuracy of 63.54\% with the results shown in table \ref{mlnet}.
+
+\begin{table}[H]
+	\begin{tabular}{@{}llllll@{}}
+		\toprule
+		& & \multicolumn{3}{c}{Predicted} \\\cmidrule{3-5}
+		Actual & & Negative & Neutral & Positive &  \\ \midrule
+		Negative & & 166 & 78 & 31 & \\
+		Neutral  & & 138 & 248 & 64 & \\
+		Positive & & 19 & 12 & 182 & \\ \bottomrule
+	\end{tabular}
+	\centering
+	\caption{Results using MML classifier.}
+	\label{mlnet}
+\end{table}
+

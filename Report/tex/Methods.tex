@@ -1,0 +1,128 @@
+\section{Methodology}
+
+In this section we will explain how we approached gathering and labelling our data.
+
+To be able to do sentiment analysis on comments on political articles we had to select which social media, which news media and which articles that we were to collect from. One of the things we kept in mind when selecting the previous mentioned data sources was that we wanted to create a diverse dataset. Therefore exposure/reach was a very important value to consider. We also wanted to avoid echo-chambers \cite{echochamber}, because they would skew the dataset towards being less representative for general purpose use.
+We only collected the root comments of a post, which is defined by comments that are directly replying to the post itself and not replies to such a reply.
+We did this in order to make sure the comment were related to the article, rather than previous comments.
+We also created 'tags' for each of the articles, which basically consists of the main topics that the articles are relevant to. We did this because \textit{if} we wanted to compare comments between different topics, this was an easy way to sort the dataset. It would also make it easier to keep track of how diverse our dataset was.
+
+\subsection{Social Media}
+
+To get the most diverse dataset it was clear that we had to go to the most used social media. It therefore was quite obvious that we were to collect data from \href{https://www.facebook.com/}{Facebook}\footnote{https://www.facebook.com/}, because Denmark has one of the highest Facebook users per capita.
+Facebook also has a rich environment of news media to collect from, which again gives the ability to create an even more diverse dataset.
+
+The next social media that we were to use was \href{https://www.reddit.com/}{Reddit}\footnote{https://www.reddit.com/}. Reddit is a forum consisting of subforas in which Denmark has an unofficial national reddit - what is called a subreddit. The Danish subreddit has 113 thousand subscribers and is known to provide more diverse discussions on posts than Facebook, since it was build for that purpose\cite{redditinc}.
+
+The last social media that we wanted to use was \href{https://twitter.com/}{Twitter}\footnote{https://twitter.com/}. Twitter is a social media where there is a fairly short character limit on the tweets(posts), but many political actors are active on twitter, it was therefore also deemed to be a valuable source of data.
+
+
+\subsection{News Media}
+
+The first major news media data source was TV2’s Facebook-page. The media has the highest number of likes,  sitting at a total of 594.062 likes\cite{tv2}, amongst all the Danish news Facebook pages. This means that essentially 10\% of the Danish population is following the media, which through likes, shares, reactions and comments will yield a much larger reach. Below is a list of other news media pages we gathered data from, and the number of likes the page has.
+
+\begin{itemize}
+	\item B.T.: 398.238 \cite{bt}
+	\item DR Nyheder: 378.734 \cite{dr}
+	\item Politiken: 275.050 \cite{politiken}
+	\item Dagbladet Informationen: 151.117 \cite{dagblad}
+	
+\end{itemize}
+
+Late in the process our dataset lacked positive sentiment, therefore we included comments from Fucking Flink’s Facebook-page. The name translates to “fucking nice” and is essentially a positive-minded echo-chamber with 174.190 likes\cite{ff}. Even though Fucking Flink to be considered an echo-chamber, and that we mentioned earlier they were unwished, it was a very efficient way to collect many positive comments. It is an echo-chamber where the opinions are expressed positively, and that was exactly what we needed to ensure a broader dataset. 
+\subsection{Articles}
+
+When we chose our political articles we did not have any other rules than:
+\begin{enumerate}
+	\item It had to be directly politically relevant
+	\item It had to be at least 48 hours old
+\end{enumerate}
+
+If we were to implement more rules we were afraid of creating a biased dataset. How one defined directly political was also left out to be a subjective judgement, because what someone would find political relevant - others might not. It being politically relevant is essential for this project, since we want our machine learning algorithms to learn the language used in that context. The reason behind that a post has to be 48 hours old is we deemed it necessary to ensure that we had a broad range of people who have commented on them.
+
+
+\subsection{Labelling our data} \label{labelling}
+
+The process of labelling the data is critical when creating a dataset for supervised machine learning. Labelling is the process of analysing the data and giving it a label, so that behind-the-scenes the algorithms can try to distinguish them. How we chose to label the data will therefore directly affect the results we get. In our case we did fine-grained polarity, which meant instead of just doing 3 types of classification:
+\begin{itemize}
+	\item 1 - Positive
+	\item 0 - Neutral
+	\item -1 - Negative
+\end{itemize}
+We instead went with five types of classification.
+\begin{itemize}
+	\item 2 - Very Positive
+	\item 1 - Positive
+	\item 0 - Neutral
+	\item -1 - Negative
+	\item -2 - Very Negative
+\end{itemize}
+We believed this would give us a more versatile model, and that it would make it easier for the machine learning algorithms to detect positive/negative sentiment. 
+
+\subsection{Krippendorff’s alpha}
+Krippendorff’s alpha is a statistical method for calculating the overall agreement between a number of annotators, independently annotating a dataset. 
+We used an online tool named “ReCal” \cite{ReCal} to calculate our alpha values.
+Since every member of the group independently annotated the words in the lexicon used for the rule-based classifier, the alpha value can be used to prove the reliability of the lexicon.
+We reached an alpha value of 0.922 on our annotation of our lexicon. This indicates that we had a high level of agreement, and that the ratings are correct.
+In the beginning of the project, we had the assumption that we would have a high level of agreement. As advised by our supervisor, to ensure that this assumption was correct, we decided to annotate the first 100 sentences and compare our annotations.
+Since we decided only to use the general polarity of the sentences, we normalized negative ratings to -1 and the positive ratings to 1. 
+When we then again calculated the alpha value on the initial annotations, we reached an alpha of 0.547. This meant we were not agreeing by a lot. 
+
+\subsection{Streamlining our annotations}
+To streamline our labelling of the sentences we followed an idea by our supervisor to make some guidelines for how we would annotate our data. We found support to this idea by Saif M. Mohammed who says: \textit{"Clear and simple instructions are crucial for obtaining high-quality annotations. This is true even for
+seemingly simple annotation tasks, such as sentiment annotation, where one is to label instances as
+positive, negative, or neutral"} \cite{saif}. These guidelines were created by grabbing a subsection of our collected data, which in total was about 100 sentences, and then we evaluated them collectively. Once we all agreed upon a rating for a given sentence, we created a specific guideline to support this rating. Specifically we ended up looking for tone, words, agreement, emojis and other special characters such as question marks, exclamation marks etc. Below are the guidelines we created, note that they might overlap and it was up to the individual annotator to determine what rules applied: \\
+2:
+\begin{itemize}
+	\itemsep-0.3em
+	\item Positive action with positive intensifier.
+	\item Direct positive sentiment towards topics, people or objects.
+	\item Many tokens that indicate positivity e.g \textless3  \textless3 \textless3 \textless3 \textless3.
+\end{itemize}
+1:
+\begin{itemize}
+	\itemsep-0.3em
+	\item Turns something negative into something positive.
+	\item Something positive is being referred to.
+	\item Positive tone/message.
+	\item Wishes something positive without being eagerly formulated.
+	\item Subtle expression of positive attitude towards individuals/person/objects.
+	\item Few tokens that indicate positivity.
+	\item A sentence that is near impossible to use negatively (yet often positively).
+	\item They express agreement.
+\end{itemize}
+0:
+\begin{itemize}
+	\itemsep-0.3em
+	\item A sentence that can only be understood in context is inconclusive.
+	\item That which is not immediate positive nor negative.
+	\item Sentences that are not inherently positive or negative.
+	\item Impartial expressions.
+	\item Objective descriptions.
+\end{itemize}
+-1:
+\begin{itemize}
+	\itemsep-0.3em
+	\item They express disagreement.
+	\item Tokens that indicate negativity e.g :(.
+	\item Turns something positive into something negative.
+	\item Something negative is being referred to.
+	\item Negative tone/message.
+	\item Wishes something negative without said being eagerly formulated.
+	\item Subtle expression of negative attitude towards individuals/person/objects.
+	\item A sentence that is near impossible to use positively (yet often negatively).
+\end{itemize}
+-2:
+\begin{itemize}
+	\itemsep-0.3em
+	\item Strong negative intensifiers or cursing.
+	\item Direct/clear negative sentiment towards topics, people or objects.
+	\item Many negative tokens e.g " :( :( :( :( :( ".
+\end{itemize}
+
+Towards the end of the project and after having used to guide lines, we again calculated an alpha value on 100 new, unique sentences. This time we reached an alpha of 0.651, which clearly indicates that the guide lines increased our agreement on our annotation. While we were agreeing a lot more, we were still not being consistent, which we will explain in the section below.
+
+\subsection{Cross validating our dataset}
+
+An important decision we made later in the process was to cross validate all of the ratings given by the other group members. We did this in pairs to make sure we had a discussion on the ratings we were unsure of and because there was indications that we had not followed the guidelines correctly. We did not initially think this was necessary, but since we found examples of sentences that were clearly violating our guidelines, it became evident that this was a necessity. 
+An example of a sentence that a group member had labelled wrong throughout the data was “I agree”, which was rated as neutral, but according to our rules this should be positive sentiment. We ended up revaluating around 5\% of the total ratings, which also gave us a slight improvement of accuracy of ~1\% points. This also made us question the correctness of the fine-grained polarity, but since we were purely focusing on the polarity, we did not seek to validate this.
