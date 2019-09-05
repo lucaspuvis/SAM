@@ -37,7 +37,7 @@ namespace SAM
 
 
         /// <summary>
-        /// Creates the process and starts it, returns the process id
+        /// Creates the process and starts it, returns the process id, so process can be identified and killed elsewhere
         /// </summary>
         /// <returns>process id</returns>
         private static int RunPythonServer()
