@@ -43,3 +43,7 @@ To train the models, run the python scripts and exchange the filename with the d
 ```
 python3 Sentimentinator/Classifiers/classifier_svm.py
 ```
+
+# FURTHER READING
+Further information about the dataset we gathered can be read [here](https://github.com/steffan267/Sentiment-Analysis-on-Danish-Social-Media)
+If you wish to read more about both the dataset and this software, you can read our [thesis](https://github.com/lucaspuvis/SAM/blob/master/Thesis.pdf)
