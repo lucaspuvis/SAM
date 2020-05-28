@@ -1,0 +1,39 @@
+{
+    "description": "<p>First \"official\" release of the code from the state it was in when we handed in our bachelor thesis.</p>", 
+    "license": "other-open", 
+    "title": "lucaspuvis/SAM: Release", 
+    "version": "1.0", 
+    "upload_type": "software", 
+    "publication_date": "2020-05-28", 
+    "creators": [
+        {
+            "name": "Steffan Eybye Christensen"
+        }, 
+        {
+            "name": "Lucas Høyberg Puvis de Chavannes"
+        }, 
+        {
+            "affiliation": "IT University of Copenhagen", 
+            "name": "Leon Derczynski"
+        }, 
+        {
+            "name": "Peter Due Jensen"
+        }, 
+        {
+            "name": "Mads Guldborg Kjeldgaard Kongsbak"
+        }
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/lucaspuvis/SAM/tree/1.0", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.3862692", 
+            "relation": "isVersionOf"
+        }
+    ]
+}
