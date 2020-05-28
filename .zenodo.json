@@ -7,7 +7,7 @@
     "publication_date": "2020-05-28", 
     "creators": [
         {
-            "name": "steffan267"
+            "name": "Steffan Eybye Christensen"
         }, 
         {
             "name": "Lucas Puvis de Chavannes"
@@ -17,20 +17,17 @@
             "name": "Leon Derczynski"
         }, 
         {
-            "name": "Nillster"
+            "name": "Peter Due Jensen"
         }, 
         {
-            "name": "PeterDueJensen"
-        }, 
-        {
-            "name": "mkon"
+            "name": "Mads Guldborg Kjeldgaard Kongsbak"
         }
     ], 
     "access_right": "open", 
     "related_identifiers": [
         {
             "scheme": "url", 
-            "identifier": "https://github.com/lucaspuvis/SAM/tree/1.0", 
+            "identifier": "https://github.com/lucaspuvis/SAM/tree/v1.0.1", 
             "relation": "isSupplementTo"
         }, 
         {
