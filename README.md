@@ -67,4 +67,4 @@ Bibtex:
 
 
 
-For details, see LICENSE.md.
+For details, see [LICENSE.md](LICENSE.md).
