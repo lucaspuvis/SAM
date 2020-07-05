@@ -52,7 +52,7 @@ If you wish to read more about both the dataset and this software, you can read 
 ## LICENSE
 This code is licenced CC-BY: you may use it for commercial and non-commercial purposes, and you MUST acknowledge the source clearly if you so. Acknowledge this reference for SAM:
 
-Mads Guldborg Kjeldgaard Kongsbak, Steffan Eybye Christensen, Lucas Høyberg Puvis de Chavannes, Peter Due Jensen. "Sentiment Analysis Multitool, SAM". 2019. Bachelor disseratation, IT University of Copenhagen.
+Mads Guldborg Kjeldgaard Kongsbak, Steffan Eybye Christensen, Lucas Høyberg Puvis de Chavannes, Peter Due Jensen. "Sentiment Analysis Multitool, SAM". 2019. Bachelor dissertation, IT University of Copenhagen.
 
 Bibtex:
 ```
