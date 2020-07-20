@@ -26,8 +26,8 @@ This will random order your data and take 10% as test data.
 
 ## REQUIREMENTS
 To run this program, you need Windows and the following software installed on your computer:
-* .NET Core 2.1
-* Python 3.6
+* .NET Core 2.1 or higher
+* Python 3.6 or higher
 * Pip3
 
 ## PYTHON CLASSIFIER
